@@ -1,0 +1,64 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-react", "tslint-react-hooks", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "arrow-parens": false,
+    "interface-name": false,
+    "jsx-alignment": false,
+    "jsx-boolean-value": false,
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
+    "no-empty-interface": false,
+    "member-access": false,
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false,
+    "semicolon": false,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"],
+    "react-hooks-nesting": true,
+    "ordered-imports": {
+      "options": {
+        "import-sources-order": "case-insensitive",
+        "grouped-imports": true,
+        "groups": [
+          {
+            "name": "external",
+            "match": "^(?!(core|data|components|views|..?)\\/.*$).*",
+            "order": 1
+          },
+          {
+            "name": "core",
+            "match": "^core/",
+            "order": 10
+          },
+          {
+            "name": "data",
+            "match": "^data/",
+            "order": 20
+          },
+          {
+            "name": "components",
+            "match": "^components/",
+            "order": 30
+          },
+          {
+            "name": "views",
+            "match": "^views/",
+            "order": 40
+          },
+          {
+            "name": "local",
+            "match": "^[.](?!.*[.](css|scss|sass)$).*$",
+            "order": 50
+          },
+          {
+            "name": "styles",
+            "match": ".*\\.(css|scss|sass)$",
+            "order": 60
+          }
+        ]
+      }
+    },
+    "rulesDirectory": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "COMPONENTS": {
+    "NAVBAR": {
+      "LIST_LINK": "Notes"
+    },
+    "LAYOUT": {
+      "HEADER_TEXT": "Notes editor"
+    }
+  },
+  "NOTES": {
+    "LIST": {
+      "HEADER_TEXT": "Notes list ({{count}})",
+      "ADD_NOTES": {
+        "ADD_PLACEHOLDER": "Add note...",
+        "ADD_BUTTON": "Add note"
+      },
+      "NOTE": {
+        "FAVORITE_LABEL": "(favorite)",
+        "BUTTON_MARK_FAVORITE": "Mark as favorite",
+        "BUTTON_UNMARK_FAVORITE": "Unmark as favorite",
+        "BUTTON_DELETE": "Delete",
+        "BUTTON_EDIT": "Edit"
+      }
+    },
+    "EDIT": {
+      "FAVORITE_LABEL": "Favorite",
+      "BUTTON_EDIT": "Edit",
+      "BUTTON_SAVE": "Save",
+      "BUTTON_BACK": "Back"
+    }
+  }
+}
