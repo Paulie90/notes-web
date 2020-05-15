@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { NoteEditPage } from "./Edit/NotesEditPage";
+import { NoteEditPage } from "./Edit/NoteEditPage";
 import { NotesListPage } from "./List/NotesListPage";
 import * as NOTES from "./paths";
 

@@ -4,22 +4,18 @@ import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
 import { TAppAction } from "data/actions";
-import { fetchNotesStartAction, INote } from "data/Notes";
+import { fetchNotesStartAction } from "data/Notes";
 import { IAppState } from "data/reducers";
 
 import { AddNotes, NoteList } from "./components";
 
 import "./NotesListPage.scss";
 
-interface StateProps {
-  notes: INote[];
-}
-
 interface DispatchProps {
   onLoad(): void;
 }
 
-const NotesListPageComponent: FunctionComponent<StateProps & DispatchProps> = ({ notes, onLoad }) => {
+const NotesListPageComponent: FunctionComponent<DispatchProps> = ({ onLoad }) => {
   useEffect(() => {
     onLoad();
   }, [onLoad]);
@@ -27,14 +23,10 @@ const NotesListPageComponent: FunctionComponent<StateProps & DispatchProps> = ({
   return (
     <Container>
       <AddNotes />
-      <NoteList notes={notes} />
+      <NoteList />
     </Container>
   );
 };
-
-const mapStateToProps = (state: IAppState) => ({
-  notes: state.notes.notes,
-});
 
 const mapDispatchToProps = (dispatch: Dispatch<TAppAction>) =>
   bindActionCreators(
@@ -44,7 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch<TAppAction>) =>
     dispatch,
   );
 
-export const NotesListPage = connect<StateProps, DispatchProps, {}, IAppState>(
-  mapStateToProps,
+export const NotesListPage = connect<{}, DispatchProps, {}, IAppState>(
+  () => ({}),
   mapDispatchToProps,
 )(NotesListPageComponent);

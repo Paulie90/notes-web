@@ -24,7 +24,6 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  onFavorite(id: string): void;
   onEdit(note: INote): void;
   onDelete(id: string): void;
 }
@@ -85,7 +84,6 @@ const mapStateToProps = (state: IAppState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<TAppAction>) =>
   bindActionCreators(
     {
-      onFavorite: deleteNoteStartAction,
       onEdit: editNoteStartAction,
       onDelete: deleteNoteStartAction,
     },

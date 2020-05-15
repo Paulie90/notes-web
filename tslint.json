@@ -27,6 +27,11 @@
             "order": 1
           },
           {
+            "name": "spec",
+            "match": "^spec/",
+            "order": 2
+          },
+          {
             "name": "core",
             "match": "^core/",
             "order": 10
