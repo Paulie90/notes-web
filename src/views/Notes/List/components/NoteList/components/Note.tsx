@@ -1,17 +1,17 @@
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons/faEllipsisH";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { FunctionComponent, memo } from "react";
+import React, { Dispatch, FunctionComponent, memo, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useTranslation } from "react-i18next";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { bindActionCreators, Dispatch } from "redux";
 
 import { TAppAction } from "data/actions";
 import { deleteNoteStartAction, editNoteStartAction, INote } from "data/Notes";
-import { IAppState } from "data/reducers";
 
 import paths from "views/paths";
+
+import { EditModal } from "./EditModal";
 
 const IconComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ onClick }, ref) => (
   <div ref={ref} onClick={onClick}>
@@ -19,33 +19,32 @@ const IconComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTML
   </div>
 ));
 
-interface StateProps {
-  pending: boolean;
-}
-
-interface DispatchProps {
-  onEdit(note: INote): void;
-  onDelete(id: string): void;
-}
-
-interface OwnProps {
+interface Props {
   note: INote;
 }
 
-const NoteComponent: FunctionComponent<StateProps & DispatchProps & OwnProps> = ({ note, onEdit, onDelete }) => {
+const NoteComponent: FunctionComponent<Props> = ({ note }) => {
   const { t } = useTranslation("common");
   const history = useHistory();
+  const dispatch = useDispatch<Dispatch<TAppAction>>();
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
   const handleFavorite = (fav: boolean) => {
     const updatedNote = { ...note, fav };
 
-    onEdit(updatedNote);
+    dispatch(editNoteStartAction(updatedNote));
   };
+
+  const handleEdit = (updatedNote: INote) => {
+    dispatch(editNoteStartAction(updatedNote));
+    setShowEditModal(false);
+  };
+  const handleDelete = () => dispatch(deleteNoteStartAction(note.id));
 
   return (
     <div className="my-2 px-1 px-sm-2 py-1 py-md-2 w-100 d-flex justify-content-between bg-light border">
       <div className="pr-2 w-100">
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between" onClick={() => setShowEditModal(true)}>
           <span>{note.text}</span>
           {note.fav && <span className="text-black-50">{t("NOTES.LIST.NOTE.FAVORITE_LABEL")}</span>}
         </div>
@@ -66,31 +65,14 @@ const NoteComponent: FunctionComponent<StateProps & DispatchProps & OwnProps> = 
             {t("NOTES.LIST.NOTE.BUTTON_EDIT")}
           </Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item onClick={() => onDelete(note.id)}>
+          <Dropdown.Item onClick={handleDelete}>
             <span className="text-danger">{t("NOTES.LIST.NOTE.BUTTON_DELETE")}</span>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
+      <EditModal show={showEditModal} note={note} onSave={handleEdit} onClose={() => setShowEditModal(false)} />
     </div>
   );
 };
 
-const MemorizedComponent = memo(NoteComponent);
-
-const mapStateToProps = (state: IAppState) => ({
-  pending: state.notes.pending,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<TAppAction>) =>
-  bindActionCreators(
-    {
-      onEdit: editNoteStartAction,
-      onDelete: deleteNoteStartAction,
-    },
-    dispatch,
-  );
-
-export const Note = connect<StateProps, DispatchProps, OwnProps, IAppState>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MemorizedComponent);
+export const Note = memo(NoteComponent);

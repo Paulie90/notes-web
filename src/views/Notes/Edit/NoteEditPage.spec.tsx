@@ -6,7 +6,9 @@ import { mount, ReactWrapper } from "spec";
 
 import { IAppState } from "data/reducers";
 
-import { EditForm, Header } from "./components";
+import { EditForm } from "components/Note";
+
+import { Header } from "./components";
 import { NoteEditPage } from "./NoteEditPage";
 
 const mockStore = configureMockStore<IAppState>([]);

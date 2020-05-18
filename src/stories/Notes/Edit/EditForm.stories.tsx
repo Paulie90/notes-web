@@ -5,7 +5,7 @@ import configureMockStore from "redux-mock-store";
 
 import { IAppState } from "data/reducers";
 
-import { EditForm } from "views/Notes/Edit/components";
+import { EditForm } from "components/Note";
 
 import i18n from "../../../i18n";
 
@@ -35,7 +35,7 @@ const store = configureMockStore<IAppState>([])(storeStateMock);
 export const Default = () => (
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <EditForm note={mockNote} />
+      <EditForm note={mockNote} onChange={() => null} />
     </I18nextProvider>
   </Provider>
 );
@@ -61,6 +61,7 @@ export const Favorite = () => (
           text: "asdqwe",
           fav: true,
         }}
+        onChange={() => null}
       />
     </I18nextProvider>
   </Provider>

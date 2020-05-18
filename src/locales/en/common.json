@@ -20,6 +20,11 @@
         "BUTTON_UNMARK_FAVORITE": "Unmark as favorite",
         "BUTTON_DELETE": "Delete",
         "BUTTON_EDIT": "Edit"
+      },
+      "MODAL": {
+        "HEADER": "Edit note",
+        "SAVE_BUTTON": "Save",
+        "CANCEL_BUTTON": "Cancel"
       }
     },
     "EDIT": {

@@ -25,13 +25,14 @@ const storeStateMock = {
 const store = mockStore(storeStateMock);
 store.dispatch = jasmine.createSpy("dispatch");
 let wrapper: ReactWrapper;
+const changeSpy = jasmine.createSpy("onChange");
 
 describe("EditForm component", () => {
   beforeEach(() => {
     wrapper = mount(
       <MemoryRouter initialEntries={["notes/so5MOoLgQ"]}>
         <Provider store={store}>
-          <EditForm note={mockNote} />
+          <EditForm note={mockNote} onChange={changeSpy} />
         </Provider>
       </MemoryRouter>,
     );
@@ -46,6 +47,7 @@ describe("EditForm component", () => {
 
     wrapper.find(".btn").first().simulate("click");
 
+    expect(changeSpy).toHaveBeenCalledWith({ tt: "asd" });
     expect(store.dispatch).toHaveBeenCalledWith({
       type: "NOTE_EDIT_START",
       note: { text: "pawel", fav: false, id: "so5MOoLgQ" },
