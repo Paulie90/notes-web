@@ -1,4 +1,7 @@
+import { AxiosResponse } from "axios";
 import { all, put, takeEvery } from "redux-saga/effects";
+
+import { fetchTagsStartAction } from "data/Tags/actions";
 
 import {
   addNoteErrorAction,
@@ -7,34 +10,55 @@ import {
   deleteNoteSuccessAction,
   editNoteErrorAction,
   editNoteSuccessAction,
+  fetchNotesByTagErrorAction,
+  fetchNotesByTagSuccessAction,
   fetchNotesErrorAction,
   fetchNotesSuccessAction,
   fetchNoteSuccessAction,
   IAddNoteStartAction,
   IDeleteNoteStartAction,
   IEditNoteStartAction,
+  IFetchNotesByTagStartAction,
   IFetchNoteStartAction,
+  NOTES_FETCH_BY_TAG_START,
   NOTES_FETCH_START,
   NOTE_ADD_START,
   NOTE_DELETE_START,
   NOTE_EDIT_START,
   NOTE_FETCH_START,
 } from "./actions";
-import { addNote, deleteNote, editNote, getNote, getNoteList } from "./service";
+import { addNote, deleteNote, editNote, getNote, getNoteByTag, getNoteList } from "./service";
+import { INoteDTO } from "./types";
+import { parseNote, stringifyNote } from "./utils";
 
 function* fetchNotesSaga() {
   try {
-    const { data } = yield getNoteList();
-    yield put(fetchNotesSuccessAction(data));
+    const { data }: AxiosResponse<INoteDTO[]> = yield getNoteList(); // yield gives any type :(
+    const parsedData = data.map((note) => parseNote(note));
+
+    yield put(fetchNotesSuccessAction(parsedData));
   } catch (error) {
     yield put(fetchNotesErrorAction(error));
   }
 }
 
+function* fetchNotesByTagSaga(action: IFetchNotesByTagStartAction) {
+  try {
+    const { data }: AxiosResponse<INoteDTO[]> = yield getNoteByTag(action.tag);
+    const parsedData = data.map((note) => parseNote(note));
+
+    yield put(fetchNotesByTagSuccessAction(parsedData));
+  } catch (error) {
+    yield put(fetchNotesByTagErrorAction(error));
+  }
+}
+
 function* fetchNoteSaga(action: IFetchNoteStartAction) {
   try {
-    const { data } = yield getNote(action.noteId);
-    yield put(fetchNoteSuccessAction(data));
+    const { data }: AxiosResponse<INoteDTO> = yield getNote(action.noteId);
+    const parsedData = parseNote(data);
+
+    yield put(fetchNoteSuccessAction(parsedData));
   } catch (error) {
     yield put(fetchNotesErrorAction(error));
   }
@@ -42,8 +66,10 @@ function* fetchNoteSaga(action: IFetchNoteStartAction) {
 
 function* addNoteSaga(action: IAddNoteStartAction) {
   try {
-    const response = yield addNote(action.text); // yield gives any type :(
-    yield put(addNoteSuccessAction(response.data));
+    const response: AxiosResponse<INoteDTO> = yield addNote(action.text);
+    const parsedNote = parseNote(response.data);
+
+    yield put(addNoteSuccessAction(parsedNote));
   } catch (error) {
     yield put(addNoteErrorAction(error));
   }
@@ -60,7 +86,10 @@ function* deleteNoteSaga(action: IDeleteNoteStartAction) {
 
 function* editNoteSaga(action: IEditNoteStartAction) {
   try {
-    yield editNote(action.note);
+    const noteDTO = stringifyNote(action.note);
+
+    yield editNote(noteDTO);
+    yield put(fetchTagsStartAction());
     yield put(editNoteSuccessAction(action.note));
   } catch (error) {
     yield put(editNoteErrorAction(error));
@@ -70,6 +99,7 @@ function* editNoteSaga(action: IEditNoteStartAction) {
 export default function* notesSaga() {
   yield all([
     takeEvery(NOTES_FETCH_START, fetchNotesSaga),
+    takeEvery(NOTES_FETCH_BY_TAG_START, fetchNotesByTagSaga),
     takeEvery(NOTE_FETCH_START, fetchNoteSaga),
     takeEvery(NOTE_ADD_START, addNoteSaga),
     takeEvery(NOTE_DELETE_START, deleteNoteSaga),

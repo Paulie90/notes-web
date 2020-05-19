@@ -2,6 +2,9 @@ import { AxiosError } from "axios";
 import { Reducer } from "redux";
 
 import {
+  NOTES_FETCH_BY_TAG_ERROR,
+  NOTES_FETCH_BY_TAG_START,
+  NOTES_FETCH_BY_TAG_SUCCESS,
   NOTES_FETCH_ERROR,
   NOTES_FETCH_START,
   NOTES_FETCH_SUCCESS,
@@ -38,18 +41,29 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
   action: TNotesAction,
 ) => {
   switch (action.type) {
-    case NOTES_FETCH_START || NOTE_FETCH_START || NOTE_ADD_START || NOTE_DELETE_START || NOTE_EDIT_START:
+    case NOTES_FETCH_START:
+    case NOTES_FETCH_BY_TAG_START:
+    case NOTE_FETCH_START:
+    case NOTE_ADD_START:
+    case NOTE_DELETE_START:
+    case NOTE_EDIT_START:
       return {
         ...state,
         pending: true,
       };
-    case NOTES_FETCH_ERROR || NOTE_FETCH_ERROR || NOTE_ADD_ERROR || NOTE_DELETE_ERROR || NOTE_EDIT_ERROR:
+    case NOTES_FETCH_ERROR:
+    case NOTES_FETCH_BY_TAG_ERROR:
+    case NOTE_FETCH_ERROR:
+    case NOTE_ADD_ERROR:
+    case NOTE_DELETE_ERROR:
+    case NOTE_EDIT_ERROR:
       return {
         ...state,
         pending: false,
         error: action.error,
       };
     case NOTES_FETCH_SUCCESS:
+    case NOTES_FETCH_BY_TAG_SUCCESS:
       return {
         ...state,
         pending: false,

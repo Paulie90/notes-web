@@ -28,10 +28,10 @@ const EditModalComponent: FunctionComponent<Props> = ({ show, note, onClose, onS
         <EditForm note={note} onChange={setCacheNote} />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="light" onClick={onClose}>
           {t("NOTES.LIST.MODAL.CANCEL_BUTTON")}
         </Button>
-        <Button variant="primary" onClick={() => onSave(cacheNote)}>
+        <Button variant="success" onClick={() => onSave(cacheNote)}>
           {t("NOTES.LIST.MODAL.SAVE_BUTTON")}
         </Button>
       </Modal.Footer>

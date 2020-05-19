@@ -1,11 +1,16 @@
 import { AxiosError } from "axios";
 import { Action } from "redux";
 
+import { TTag } from "data/Tags";
+
 import { INote } from "./types";
 
 export const NOTES_FETCH_START = "NOTES_FETCH_START";
 export const NOTES_FETCH_SUCCESS = "NOTES_FETCH_SUCCESS";
 export const NOTES_FETCH_ERROR = "NOTES_FETCH_ERROR";
+export const NOTES_FETCH_BY_TAG_START = "NOTES_FETCH_BY_TAG_START";
+export const NOTES_FETCH_BY_TAG_SUCCESS = "NOTES_FETCH_BY_TAG_SUCCESS";
+export const NOTES_FETCH_BY_TAG_ERROR = "NOTES_FETCH_BY_TAG_ERROR";
 export const NOTE_FETCH_START = "NOTE_FETCH_START";
 export const NOTE_FETCH_SUCCESS = "NOTE_FETCH_SUCCESS";
 export const NOTE_FETCH_ERROR = "NOTE_FETCH_ERROR";
@@ -38,6 +43,33 @@ export interface IFetchNotesErrorAction extends Action<typeof NOTES_FETCH_ERROR>
 }
 export const fetchNotesErrorAction = (error: AxiosError): IFetchNotesErrorAction => ({
   type: NOTES_FETCH_ERROR,
+  error,
+});
+
+// -- FETCH NOTES BY TAG --
+export interface IFetchNotesByTagStartAction extends Action<typeof NOTES_FETCH_BY_TAG_START> {
+  tag: TTag;
+}
+export const fetchNotesByTagStartAction = (tag: TTag): IFetchNotesByTagStartAction => ({
+  type: NOTES_FETCH_BY_TAG_START,
+  tag,
+});
+
+export interface IFetchNotesByTagSuccessAction extends Action<typeof NOTES_FETCH_BY_TAG_SUCCESS> {
+  notes: INote[];
+}
+export const fetchNotesByTagSuccessAction = (notes: INote[]): IFetchNotesByTagSuccessAction => {
+  return {
+    type: NOTES_FETCH_BY_TAG_SUCCESS,
+    notes,
+  };
+};
+
+export interface IFetchNotesByTagErrorAction extends Action<typeof NOTES_FETCH_BY_TAG_ERROR> {
+  error: AxiosError;
+}
+export const fetchNotesByTagErrorAction = (error: AxiosError): IFetchNotesByTagErrorAction => ({
+  type: NOTES_FETCH_BY_TAG_ERROR,
   error,
 });
 
@@ -145,6 +177,9 @@ export type TNotesAction =
   | IFetchNotesStartAction
   | IFetchNotesSuccessAction
   | IFetchNotesErrorAction
+  | IFetchNotesByTagStartAction
+  | IFetchNotesByTagSuccessAction
+  | IFetchNotesByTagErrorAction
   | IFetchNoteStartAction
   | IFetchNoteSuccessAction
   | IFetchNoteErrorAction

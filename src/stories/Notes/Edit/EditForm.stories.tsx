@@ -22,11 +22,15 @@ const mockNote = {
   id: "so5MOoLgQ",
 };
 
-const storeStateMock = {
+const storeStateMock: IAppState = {
   notes: {
     pending: false,
     notes: [],
     note: mockNote,
+  },
+  tags: {
+    pending: false,
+    tags: [],
   },
 };
 
@@ -46,6 +50,7 @@ const mockNote2 = {
   id: "so5MOoLDF",
 };
 const store2 = configureMockStore<IAppState>([])({
+  ...storeStateMock,
   notes: {
     ...storeStateMock.notes,
     note: mockNote2,

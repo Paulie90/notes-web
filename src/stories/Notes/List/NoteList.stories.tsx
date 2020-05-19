@@ -16,7 +16,7 @@ export default {
   component: NoteList,
 };
 
-const storeStateMock = {
+const storeStateMock: IAppState = {
   notes: {
     pending: false,
     notes: [
@@ -37,6 +37,10 @@ const storeStateMock = {
       },
     ],
   },
+  tags: {
+    tags: [],
+    pending: false,
+  },
 };
 
 const store = configureMockStore<IAppState>([])(storeStateMock);
@@ -50,6 +54,7 @@ export const Default = () => (
 );
 
 const store2 = configureMockStore<IAppState>([])({
+  ...storeStateMock,
   notes: {
     pending: false,
     notes: [],

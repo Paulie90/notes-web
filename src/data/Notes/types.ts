@@ -1,6 +1,14 @@
-export interface INote {
+import { TTag, TTagsDTO } from "data/Tags";
+
+interface INoteBase {
   id: string;
   text: string;
   fav: boolean;
-  tags?: string;
+}
+export interface INote extends INoteBase {
+  tags?: TTag[];
+}
+
+export interface INoteDTO extends INoteBase {
+  tags?: TTagsDTO;
 }

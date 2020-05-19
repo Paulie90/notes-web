@@ -10,6 +10,10 @@
   "NOTES": {
     "LIST": {
       "HEADER_TEXT": "Notes list ({{count}})",
+      "FILTERS": {
+        "HEADER": "Filters",
+        "TAG_FILTER_HEADER": "Tag filters:"
+      },
       "ADD_NOTES": {
         "ADD_PLACEHOLDER": "Add note...",
         "ADD_BUTTON": "Add note"
