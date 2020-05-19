@@ -51,7 +51,7 @@ export const NoteEditPage: FunctionComponent = () => {
       <div className="mb-3">
         <EditForm note={note} onChange={setCacheNote} />
       </div>
-      <div className="d-flex w-100 ml-auto">
+      <div className="d-flex w-100 justify-content-end">
         <Button variant="outline-success" onClick={() => handleEdit()} disabled={isSubmitDisabled}>
           {t("NOTES.EDIT.BUTTON_SAVE")}
         </Button>

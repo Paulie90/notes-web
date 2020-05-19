@@ -15,7 +15,7 @@ const NoteListComponent: FunctionComponent = () => {
 
   return (
     <div>
-      <span>{t("NOTES.LIST.HEADER_TEXT", { count: notes.length })}</span>
+      <h3>{t("NOTES.LIST.HEADER_TEXT", { count: notes.length })}</h3>
       {noteComponents}
     </div>
   );

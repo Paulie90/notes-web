@@ -7,6 +7,9 @@ import {
   NOTES_FETCH_BY_FAVORITE_ERROR,
   NOTES_FETCH_BY_FAVORITE_START,
   NOTES_FETCH_BY_FAVORITE_SUCCESS,
+  NOTES_FETCH_BY_QUERY_ERROR,
+  NOTES_FETCH_BY_QUERY_START,
+  NOTES_FETCH_BY_QUERY_SUCCESS,
   NOTES_FETCH_BY_TAG_ERROR,
   NOTES_FETCH_BY_TAG_START,
   NOTES_FETCH_BY_TAG_SUCCESS,
@@ -14,6 +17,7 @@ import {
   NOTES_FETCH_START,
   NOTES_FETCH_SUCCESS,
   NOTES_SELECT_FILTER_FAVORITE,
+  NOTES_SELECT_FILTER_QUERY,
   NOTES_SELECT_FILTER_TAG,
   NOTE_ADD_ERROR,
   NOTE_ADD_START,
@@ -54,6 +58,7 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
     case NOTES_FETCH_START:
     case NOTES_FETCH_BY_TAG_START:
     case NOTES_FETCH_BY_FAVORITE_START:
+    case NOTES_FETCH_BY_QUERY_START:
     case NOTE_FETCH_START:
     case NOTE_ADD_START:
     case NOTE_DELETE_START:
@@ -65,6 +70,7 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
     case NOTES_FETCH_ERROR:
     case NOTES_FETCH_BY_TAG_ERROR:
     case NOTES_FETCH_BY_FAVORITE_ERROR:
+    case NOTES_FETCH_BY_QUERY_ERROR:
     case NOTE_FETCH_ERROR:
     case NOTE_ADD_ERROR:
     case NOTE_DELETE_ERROR:
@@ -77,6 +83,7 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
     case NOTES_FETCH_SUCCESS:
     case NOTES_FETCH_BY_TAG_SUCCESS:
     case NOTES_FETCH_BY_FAVORITE_SUCCESS:
+    case NOTES_FETCH_BY_QUERY_SUCCESS:
       return {
         ...state,
         pending: false,
@@ -119,6 +126,11 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
       return {
         ...state,
         filterFav: action.filterFav,
+      };
+    case NOTES_SELECT_FILTER_QUERY:
+      return {
+        ...state,
+        filterQuery: action.filterQuery,
       };
     default:
       return state;

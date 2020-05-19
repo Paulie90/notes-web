@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
 import { TAppAction } from "data/actions";
-import { selectFilterFavoriteAction, selectFilterTagAction } from "data/Notes";
+import { selectFilterFavoriteAction, selectFilterQueryAction, selectFilterTagAction } from "data/Notes";
 import { IAppState } from "data/reducers";
 import { TTag } from "data/Tags";
 import { fetchTagsStartAction } from "data/Tags/actions";
 
+import { LabelSection } from "components/LabelSection";
 import { TagBadge } from "components/TagBadges";
 
 export const TagFilter: FunctionComponent = () => {
@@ -19,7 +20,9 @@ export const TagFilter: FunctionComponent = () => {
   const filterTag = useSelector<IAppState, TTag | undefined>((state) => state.notes.filterTag);
 
   const selectTag = (tag: TTag) => {
+    // clear other filters
     dispatch(selectFilterFavoriteAction(false));
+    dispatch(selectFilterQueryAction(""));
 
     if (tag === filterTag) {
       dispatch(selectFilterTagAction());
@@ -42,9 +45,9 @@ export const TagFilter: FunctionComponent = () => {
   }, [dispatch]);
 
   return (
-    <div className="d-flex align-items-center">
-      <small className="text-muted mr-2">{t("NOTES.LIST.FILTERS.TAG_FILTER_HEADER")}</small>
-      <div className="d-flex">{badgeComponents}</div>
-    </div>
+    <LabelSection
+      LabelPanel={<small className="text-muted mr-2">{t("NOTES.LIST.FILTERS.TAG_FILTER_HEADER")}</small>}
+      ContentPanel={<div className="d-flex flex-wrap">{badgeComponents}</div>}
+    />
   );
 };

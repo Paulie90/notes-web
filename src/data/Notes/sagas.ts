@@ -1,4 +1,4 @@
-import { all, put, takeEvery } from "redux-saga/effects";
+import { all, debounce, put, takeEvery } from "redux-saga/effects";
 
 import { fetchTagsStartAction } from "data/Tags/actions";
 
@@ -11,6 +11,8 @@ import {
   editNoteSuccessAction,
   fetchNotesByFavoriteErrorAction,
   fetchNotesByFavoriteSuccessAction,
+  fetchNotesByQueryErrorAction,
+  fetchNotesByQuerySuccessAction,
   fetchNotesByTagErrorAction,
   fetchNotesByTagSuccessAction,
   fetchNotesErrorAction,
@@ -19,9 +21,11 @@ import {
   IAddNoteStartAction,
   IDeleteNoteStartAction,
   IEditNoteStartAction,
+  IFetchNotesByQueryStartAction,
   IFetchNotesByTagStartAction,
   IFetchNoteStartAction,
   NOTES_FETCH_BY_FAVORITE_START,
+  NOTES_FETCH_BY_QUERY_START,
   NOTES_FETCH_BY_TAG_START,
   NOTES_FETCH_START,
   NOTE_ADD_START,
@@ -29,7 +33,16 @@ import {
   NOTE_EDIT_START,
   NOTE_FETCH_START,
 } from "./actions";
-import { addNote, deleteNote, editNote, getNote, getNoteList, getNotesByFavorite, getNotesByTag } from "./service";
+import {
+  addNote,
+  deleteNote,
+  editNote,
+  getNote,
+  getNoteList,
+  getNotesByFavorite,
+  getNotesByQuery,
+  getNotesByTag,
+} from "./service";
 import { INote } from "./types";
 
 function* fetchNotesSaga() {
@@ -59,6 +72,16 @@ function* fetchNotesByFavoriteSaga() {
     yield put(fetchNotesByFavoriteSuccessAction(data));
   } catch (error) {
     yield put(fetchNotesByFavoriteErrorAction(error));
+  }
+}
+
+function* fetchNotesByQuerySaga(action: IFetchNotesByQueryStartAction) {
+  try {
+    const data: INote[] = yield getNotesByQuery(action.query);
+
+    yield put(fetchNotesByQuerySuccessAction(data));
+  } catch (error) {
+    yield put(fetchNotesByQueryErrorAction(error));
   }
 }
 
@@ -105,7 +128,8 @@ export default function* notesSaga() {
   yield all([
     takeEvery(NOTES_FETCH_START, fetchNotesSaga),
     takeEvery(NOTES_FETCH_BY_TAG_START, fetchNotesByTagSaga),
-    takeEvery(NOTES_FETCH_BY_FAVORITE_START, fetchNotesByFavoriteSaga),
+    debounce(400, NOTES_FETCH_BY_FAVORITE_START, fetchNotesByFavoriteSaga),
+    debounce(400, NOTES_FETCH_BY_QUERY_START, fetchNotesByQuerySaga),
     takeEvery(NOTE_FETCH_START, fetchNoteSaga),
     takeEvery(NOTE_ADD_START, addNoteSaga),
     takeEvery(NOTE_DELETE_START, deleteNoteSaga),

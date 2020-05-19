@@ -12,3 +12,5 @@ export interface INote extends INoteBase {
 export interface INoteDTO extends INoteBase {
   tags?: TTagsDTO;
 }
+
+export type TQueryNoteDTO = (string | boolean)[];

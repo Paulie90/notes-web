@@ -14,7 +14,9 @@
         "HEADER": "Filters",
         "TAG_FILTER_HEADER": "Tag filters:",
         "FAV_FILTER_HEADER": "Tag filters:",
-        "FAV_FILTER_LABEL": "Favorite"
+        "FAV_FILTER_LABEL": "Favorite",
+        "QUERY_FILTER_HEADER": "Search filter:",
+        "QUERY_FILTER_PLACEHOLDER": "Search..."
       },
       "ADD_NOTES": {
         "ADD_PLACEHOLDER": "Add note...",

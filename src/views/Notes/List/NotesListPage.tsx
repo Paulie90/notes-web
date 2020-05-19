@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
 import { TAppAction } from "data/actions";
-import { fetchNotesByFavoriteStartAction, fetchNotesByTagStartAction, fetchNotesStartAction } from "data/Notes";
+import {
+  fetchNotesByFavoriteStartAction,
+  fetchNotesByQueryStartAction,
+  fetchNotesByTagStartAction,
+  fetchNotesStartAction,
+} from "data/Notes";
 import { IAppState } from "data/reducers";
 import { TTag } from "data/Tags";
 
@@ -25,7 +30,7 @@ export const NotesListPage: FunctionComponent = () => {
     }
 
     if (filterQuery) {
-      // TODO: load by query
+      dispatch(fetchNotesByQueryStartAction(filterQuery));
       return;
     }
 

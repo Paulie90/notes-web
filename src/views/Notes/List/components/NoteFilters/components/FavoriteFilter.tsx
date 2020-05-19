@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
 import { TAppAction } from "data/actions";
-import { selectFilterFavoriteAction, selectFilterTagAction } from "data/Notes";
+import { selectFilterFavoriteAction, selectFilterQueryAction, selectFilterTagAction } from "data/Notes";
 import { IAppState } from "data/reducers";
+
+import { LabelSection } from "components/LabelSection";
 
 export const FavoriteFilter: FunctionComponent = () => {
   const { t } = useTranslation("common");
@@ -14,22 +16,27 @@ export const FavoriteFilter: FunctionComponent = () => {
   const filterFav = useSelector<IAppState, boolean | undefined>((state) => state.notes.filterFav);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked;
+    // clear other filters
     dispatch(selectFilterTagAction());
+    dispatch(selectFilterQueryAction(""));
+
+    const isChecked = event.target.checked;
     dispatch(selectFilterFavoriteAction(isChecked));
   };
 
   return (
-    <div className="d-flex align-items-center">
-      <small className="text-muted mr-2">{t("NOTES.LIST.FILTERS.TAG_FILTER_HEADER")}</small>
-      <Form>
-        <Form.Check
-          type="checkbox"
-          checked={!!filterFav}
-          label={t("NOTES.LIST.FILTERS.FAV_FILTER_LABEL")}
-          onChange={handleChange}
-        />
-      </Form>
-    </div>
+    <LabelSection
+      LabelPanel={<small className="text-muted mr-2">{t("NOTES.LIST.FILTERS.TAG_FILTER_HEADER")}</small>}
+      ContentPanel={
+        <Form>
+          <Form.Check
+            type="checkbox"
+            checked={!!filterFav}
+            label={t("NOTES.LIST.FILTERS.FAV_FILTER_LABEL")}
+            onChange={handleChange}
+          />
+        </Form>
+      }
+    />
   );
 };

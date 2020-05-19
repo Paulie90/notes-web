@@ -23,7 +23,7 @@ export const TagList: FunctionComponent<Props> = ({ tags = [], onChange }) => {
   }
 
   return (
-    <div className="d-flex">
+    <div className="d-flex flex-wrap">
       <TagBadges tags={tags} onDelete={onChange} />
       <AddTagBadge onAdd={handleAdd} />
     </div>
