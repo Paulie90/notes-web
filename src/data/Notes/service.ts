@@ -9,6 +9,7 @@ const API = {
   LIST: "/notes",
   NOTE: (noteId: string) => `/notes/${noteId}`,
   TAG: (tag: TTag) => `/notes/tags/${tag}`,
+  FAVORITE: "/notes/favourites",
   ADD: "/notes",
   DELETE: (noteId: string) => `/notes/${noteId}`,
   EDIT: (noteId: string) => `/notes/${noteId}`,
@@ -22,6 +23,9 @@ export const getNote = async (noteId: string) =>
 
 export const getNotesByTag = async (tag: TTag) =>
   HTTPFetcher.get<INoteDTO[]>(API.TAG(tag)).then((payload) => payload.data.map((note) => parseNote(note)));
+
+export const getNotesByFavorite = async () =>
+  HTTPFetcher.get<INoteDTO[]>(API.FAVORITE).then((payload) => payload.data.map((note) => parseNote(note)));
 
 export const addNote = async (text: string, fav: boolean = false) =>
   HTTPFetcher.post<INoteDTO>(API.ADD, {

@@ -6,7 +6,6 @@ import { TTag } from "./types";
 export const TAGS_FETCH_START = "TAGS_FETCH_START";
 export const TAGS_FETCH_SUCCESS = "TAGS_FETCH_SUCCESS";
 export const TAGS_FETCH_ERROR = "TAGS_FETCH_ERROR";
-export const TAGS_SELECT_FILTER_TAG = "TAGS_SELECT_FILTER_TAG";
 
 // -- FETCH LIST --
 export interface IFetchTagsStartAction extends Action<typeof TAGS_FETCH_START> {}
@@ -30,17 +29,4 @@ export const fetchTagsErrorAction = (error: AxiosError): IFetchTagsErrorAction =
   error,
 });
 
-// -- SELECT FILTER TAG --
-export interface ISelectFilterTagAction extends Action<typeof TAGS_SELECT_FILTER_TAG> {
-  filterTag?: TTag;
-}
-export const selectFilterTagAction = (filterTag?: TTag): ISelectFilterTagAction => ({
-  type: TAGS_SELECT_FILTER_TAG,
-  filterTag,
-});
-
-export type TTagsAction =
-  | IFetchTagsStartAction
-  | IFetchTagsSuccessAction
-  | IFetchTagsErrorAction
-  | ISelectFilterTagAction;
+export type TTagsAction = IFetchTagsStartAction | IFetchTagsSuccessAction | IFetchTagsErrorAction;

@@ -12,7 +12,9 @@
       "HEADER_TEXT": "Notes list ({{count}})",
       "FILTERS": {
         "HEADER": "Filters",
-        "TAG_FILTER_HEADER": "Tag filters:"
+        "TAG_FILTER_HEADER": "Tag filters:",
+        "FAV_FILTER_HEADER": "Tag filters:",
+        "FAV_FILTER_LABEL": "Favorite"
       },
       "ADD_NOTES": {
         "ADD_PLACEHOLDER": "Add note...",

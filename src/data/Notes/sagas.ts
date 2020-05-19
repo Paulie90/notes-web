@@ -9,6 +9,8 @@ import {
   deleteNoteSuccessAction,
   editNoteErrorAction,
   editNoteSuccessAction,
+  fetchNotesByFavoriteErrorAction,
+  fetchNotesByFavoriteSuccessAction,
   fetchNotesByTagErrorAction,
   fetchNotesByTagSuccessAction,
   fetchNotesErrorAction,
@@ -19,6 +21,7 @@ import {
   IEditNoteStartAction,
   IFetchNotesByTagStartAction,
   IFetchNoteStartAction,
+  NOTES_FETCH_BY_FAVORITE_START,
   NOTES_FETCH_BY_TAG_START,
   NOTES_FETCH_START,
   NOTE_ADD_START,
@@ -26,7 +29,7 @@ import {
   NOTE_EDIT_START,
   NOTE_FETCH_START,
 } from "./actions";
-import { addNote, deleteNote, editNote, getNote, getNoteList, getNotesByTag } from "./service";
+import { addNote, deleteNote, editNote, getNote, getNoteList, getNotesByFavorite, getNotesByTag } from "./service";
 import { INote } from "./types";
 
 function* fetchNotesSaga() {
@@ -46,6 +49,16 @@ function* fetchNotesByTagSaga(action: IFetchNotesByTagStartAction) {
     yield put(fetchNotesByTagSuccessAction(data));
   } catch (error) {
     yield put(fetchNotesByTagErrorAction(error));
+  }
+}
+
+function* fetchNotesByFavoriteSaga() {
+  try {
+    const data: INote[] = yield getNotesByFavorite();
+
+    yield put(fetchNotesByFavoriteSuccessAction(data));
+  } catch (error) {
+    yield put(fetchNotesByFavoriteErrorAction(error));
   }
 }
 
@@ -92,6 +105,7 @@ export default function* notesSaga() {
   yield all([
     takeEvery(NOTES_FETCH_START, fetchNotesSaga),
     takeEvery(NOTES_FETCH_BY_TAG_START, fetchNotesByTagSaga),
+    takeEvery(NOTES_FETCH_BY_FAVORITE_START, fetchNotesByFavoriteSaga),
     takeEvery(NOTE_FETCH_START, fetchNoteSaga),
     takeEvery(NOTE_ADD_START, addNoteSaga),
     takeEvery(NOTE_DELETE_START, deleteNoteSaga),

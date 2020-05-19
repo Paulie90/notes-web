@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
 import { TAppAction } from "data/actions";
-import { fetchNotesByTagStartAction, fetchNotesStartAction } from "data/Notes";
+import { fetchNotesByFavoriteStartAction, fetchNotesByTagStartAction, fetchNotesStartAction } from "data/Notes";
 import { IAppState } from "data/reducers";
 import { TTag } from "data/Tags";
 
@@ -14,7 +14,9 @@ import "./NotesListPage.scss";
 
 export const NotesListPage: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch<TAppAction>>();
-  const filterTag = useSelector<IAppState, TTag | undefined>((state) => state.tags.filterTag);
+  const filterTag = useSelector<IAppState, TTag | undefined>((state) => state.notes.filterTag);
+  const filterFav = useSelector<IAppState, boolean | undefined>((state) => state.notes.filterFav);
+  const filterQuery = useSelector<IAppState, string | undefined>((state) => state.notes.filterQuery);
 
   useEffect(() => {
     if (filterTag) {
@@ -22,18 +24,18 @@ export const NotesListPage: FunctionComponent = () => {
       return;
     }
 
-    // if (filters.query) {
-    //   // TODO: load by query
-    //   return;
-    // }
+    if (filterQuery) {
+      // TODO: load by query
+      return;
+    }
 
-    // if (isBoolean(filters.favorite)) {
-    //   // TODO: load by favorite
-    //   return;
-    // }
+    if (filterFav) {
+      dispatch(fetchNotesByFavoriteStartAction());
+      return;
+    }
 
     dispatch(fetchNotesStartAction());
-  }, [dispatch, filterTag]);
+  }, [dispatch, filterTag, filterQuery, filterFav]);
 
   return (
     <Container>

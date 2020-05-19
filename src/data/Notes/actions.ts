@@ -11,6 +11,9 @@ export const NOTES_FETCH_ERROR = "NOTES_FETCH_ERROR";
 export const NOTES_FETCH_BY_TAG_START = "NOTES_FETCH_BY_TAG_START";
 export const NOTES_FETCH_BY_TAG_SUCCESS = "NOTES_FETCH_BY_TAG_SUCCESS";
 export const NOTES_FETCH_BY_TAG_ERROR = "NOTES_FETCH_BY_TAG_ERROR";
+export const NOTES_FETCH_BY_FAVORITE_START = "NOTES_FETCH_BY_FAVORITE_START";
+export const NOTES_FETCH_BY_FAVORITE_SUCCESS = "NOTES_FETCH_BY_FAVORITE_SUCCESS";
+export const NOTES_FETCH_BY_FAVORITE_ERROR = "NOTES_FETCH_BY_FAVORITE_ERROR";
 export const NOTE_FETCH_START = "NOTE_FETCH_START";
 export const NOTE_FETCH_SUCCESS = "NOTE_FETCH_SUCCESS";
 export const NOTE_FETCH_ERROR = "NOTE_FETCH_ERROR";
@@ -23,6 +26,9 @@ export const NOTE_DELETE_ERROR = "NOTE_DELETE_ERROR";
 export const NOTE_EDIT_START = "NOTE_EDIT_START";
 export const NOTE_EDIT_SUCCESS = "NOTE_EDIT_SUCCESS";
 export const NOTE_EDIT_ERROR = "NOTE_EDIT_ERROR";
+
+export const NOTES_SELECT_FILTER_TAG = "TAGS_SELECT_FILTER_TAG";
+export const NOTES_SELECT_FILTER_FAVORITE = "TAGS_SELECT_FILTER_FAVORITE";
 
 // -- FETCH LIST --
 export interface IFetchNotesStartAction extends Action<typeof NOTES_FETCH_START> {}
@@ -70,6 +76,30 @@ export interface IFetchNotesByTagErrorAction extends Action<typeof NOTES_FETCH_B
 }
 export const fetchNotesByTagErrorAction = (error: AxiosError): IFetchNotesByTagErrorAction => ({
   type: NOTES_FETCH_BY_TAG_ERROR,
+  error,
+});
+
+// -- FETCH NOTES BY FAVORITE --
+export interface IFetchNotesByFavoriteStartAction extends Action<typeof NOTES_FETCH_BY_FAVORITE_START> {}
+export const fetchNotesByFavoriteStartAction = (): IFetchNotesByFavoriteStartAction => ({
+  type: NOTES_FETCH_BY_FAVORITE_START,
+});
+
+export interface IFetchNotesByFavoriteSuccessAction extends Action<typeof NOTES_FETCH_BY_FAVORITE_SUCCESS> {
+  notes: INote[];
+}
+export const fetchNotesByFavoriteSuccessAction = (notes: INote[]): IFetchNotesByFavoriteSuccessAction => {
+  return {
+    type: NOTES_FETCH_BY_FAVORITE_SUCCESS,
+    notes,
+  };
+};
+
+export interface IFetchNotesByFavoriteErrorAction extends Action<typeof NOTES_FETCH_BY_FAVORITE_ERROR> {
+  error: AxiosError;
+}
+export const fetchNotesByFavoriteErrorAction = (error: AxiosError): IFetchNotesByFavoriteErrorAction => ({
+  type: NOTES_FETCH_BY_FAVORITE_ERROR,
   error,
 });
 
@@ -173,6 +203,24 @@ export const editNoteErrorAction = (error: AxiosError): IEditNoteErrorAction => 
   error,
 });
 
+// -- SELECT FILTER TAG --
+export interface ISelectFilterTagAction extends Action<typeof NOTES_SELECT_FILTER_TAG> {
+  filterTag?: TTag;
+}
+export const selectFilterTagAction = (filterTag?: TTag): ISelectFilterTagAction => ({
+  type: NOTES_SELECT_FILTER_TAG,
+  filterTag,
+});
+
+// -- SELECT FILTER FAVORITE --
+export interface ISelectFilterFavoriteAction extends Action<typeof NOTES_SELECT_FILTER_FAVORITE> {
+  filterFav?: boolean;
+}
+export const selectFilterFavoriteAction = (filterFav?: boolean): ISelectFilterFavoriteAction => ({
+  type: NOTES_SELECT_FILTER_FAVORITE,
+  filterFav,
+});
+
 export type TNotesAction =
   | IFetchNotesStartAction
   | IFetchNotesSuccessAction
@@ -180,6 +228,9 @@ export type TNotesAction =
   | IFetchNotesByTagStartAction
   | IFetchNotesByTagSuccessAction
   | IFetchNotesByTagErrorAction
+  | IFetchNotesByFavoriteStartAction
+  | IFetchNotesByFavoriteSuccessAction
+  | IFetchNotesByFavoriteErrorAction
   | IFetchNoteStartAction
   | IFetchNoteSuccessAction
   | IFetchNoteErrorAction
@@ -191,4 +242,6 @@ export type TNotesAction =
   | IDeleteNoteErrorAction
   | IEditNoteStartAction
   | IEditNoteSuccessAction
-  | IEditNoteErrorAction;
+  | IEditNoteErrorAction
+  | ISelectFilterTagAction
+  | ISelectFilterFavoriteAction;

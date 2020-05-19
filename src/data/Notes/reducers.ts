@@ -1,13 +1,20 @@
 import { AxiosError } from "axios";
 import { Reducer } from "redux";
 
+import { TTag } from "data/Tags";
+
 import {
+  NOTES_FETCH_BY_FAVORITE_ERROR,
+  NOTES_FETCH_BY_FAVORITE_START,
+  NOTES_FETCH_BY_FAVORITE_SUCCESS,
   NOTES_FETCH_BY_TAG_ERROR,
   NOTES_FETCH_BY_TAG_START,
   NOTES_FETCH_BY_TAG_SUCCESS,
   NOTES_FETCH_ERROR,
   NOTES_FETCH_START,
   NOTES_FETCH_SUCCESS,
+  NOTES_SELECT_FILTER_FAVORITE,
+  NOTES_SELECT_FILTER_TAG,
   NOTE_ADD_ERROR,
   NOTE_ADD_START,
   NOTE_ADD_SUCCESS,
@@ -28,6 +35,9 @@ export interface INotesState {
   pending: boolean;
   notes: INote[];
   note?: INote;
+  filterTag?: TTag;
+  filterFav?: boolean;
+  filterQuery?: string;
   error?: AxiosError;
 }
 
@@ -43,6 +53,7 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
   switch (action.type) {
     case NOTES_FETCH_START:
     case NOTES_FETCH_BY_TAG_START:
+    case NOTES_FETCH_BY_FAVORITE_START:
     case NOTE_FETCH_START:
     case NOTE_ADD_START:
     case NOTE_DELETE_START:
@@ -53,6 +64,7 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
       };
     case NOTES_FETCH_ERROR:
     case NOTES_FETCH_BY_TAG_ERROR:
+    case NOTES_FETCH_BY_FAVORITE_ERROR:
     case NOTE_FETCH_ERROR:
     case NOTE_ADD_ERROR:
     case NOTE_DELETE_ERROR:
@@ -64,6 +76,7 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
       };
     case NOTES_FETCH_SUCCESS:
     case NOTES_FETCH_BY_TAG_SUCCESS:
+    case NOTES_FETCH_BY_FAVORITE_SUCCESS:
       return {
         ...state,
         pending: false,
@@ -96,6 +109,16 @@ export const notesReducer: Reducer<INotesState, TNotesAction> = (
         pending: false,
         notes: editUpdatedNotes,
         note: action.note,
+      };
+    case NOTES_SELECT_FILTER_TAG:
+      return {
+        ...state,
+        filterTag: action.filterTag,
+      };
+    case NOTES_SELECT_FILTER_FAVORITE:
+      return {
+        ...state,
+        filterFav: action.filterFav,
       };
     default:
       return state;
