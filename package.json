@@ -16,6 +16,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.4.0",
@@ -37,11 +38,13 @@
   },
   "browserslist": {
     "production": [
+      "IE 9",
       ">0.2%",
       "not dead",
       "not op_mini all"
     ],
     "development": [
+      "IE 9",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"

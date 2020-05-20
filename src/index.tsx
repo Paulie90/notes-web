@@ -1,3 +1,8 @@
+// Internet Explorer polyfills
+import "./polyfills";
+
+// polyfills have to be initialized before React
+// tslint:disable-next-line: ordered-imports
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
