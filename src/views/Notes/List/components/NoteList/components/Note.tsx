@@ -13,6 +13,8 @@ import paths from "views/paths";
 
 import { EditModal } from "./EditModal";
 
+import "./Note.scss";
+
 const IconComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ onClick }, ref) => (
   <div ref={ref} onClick={onClick}>
     <FontAwesomeIcon icon={faEllipsisH} className="text-black-50" />
@@ -43,9 +45,9 @@ const NoteComponent: FunctionComponent<Props> = ({ note }) => {
 
   return (
     <div className="my-2 px-1 px-sm-2 py-1 py-md-2 w-100 d-flex justify-content-between bg-light border">
-      <div className="pr-2 w-100">
+      <div className="Note__name-container pr-2">
         <div className="d-flex justify-content-between" onClick={() => setShowEditModal(true)}>
-          <span>{note.text}</span>
+          <span className="d-flex">{note.text}</span>
           {note.fav && <span className="text-black-50">{t("NOTES.LIST.NOTE.FAVORITE_LABEL")}</span>}
         </div>
       </div>

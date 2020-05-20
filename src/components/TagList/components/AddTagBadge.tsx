@@ -15,9 +15,14 @@ interface Props {
 export const AddTagBadge: FunctionComponent<Props> = ({ onAdd }) => {
   const [name, setName] = useState<string>("");
 
+  const handleAdd = () => {
+    onAdd(name);
+    setName("");
+  };
+
   return (
     <div className="d-flex py-2">
-      <Badge icon={faPlusCircle} variant="success" onIconClick={() => onAdd(name)}>
+      <Badge icon={faPlusCircle} variant="success" onIconClick={handleAdd}>
         <FormControl
           value={name}
           onChange={(e) => setName(e.target.value)}

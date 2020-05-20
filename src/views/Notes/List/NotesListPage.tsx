@@ -6,9 +6,9 @@ import { Dispatch } from "redux";
 import { TAppAction } from "data/actions";
 import {
   fetchNotesByFavoriteStartAction,
-  fetchNotesByQueryStartAction,
   fetchNotesByTagStartAction,
   fetchNotesStartAction,
+  initFetchNotesByQueryInitAction,
 } from "data/Notes";
 import { IAppState } from "data/reducers";
 import { TTag } from "data/Tags";
@@ -30,7 +30,7 @@ export const NotesListPage: FunctionComponent = () => {
     }
 
     if (filterQuery) {
-      dispatch(fetchNotesByQueryStartAction(filterQuery));
+      dispatch(initFetchNotesByQueryInitAction(filterQuery));
       return;
     }
 

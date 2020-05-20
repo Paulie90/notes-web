@@ -14,6 +14,7 @@ export const NOTES_FETCH_BY_TAG_ERROR = "NOTES_FETCH_BY_TAG_ERROR";
 export const NOTES_FETCH_BY_FAVORITE_START = "NOTES_FETCH_BY_FAVORITE_START";
 export const NOTES_FETCH_BY_FAVORITE_SUCCESS = "NOTES_FETCH_BY_FAVORITE_SUCCESS";
 export const NOTES_FETCH_BY_FAVORITE_ERROR = "NOTES_FETCH_BY_FAVORITE_ERROR";
+export const NOTES_FETCH_BY_QUERY_INIT = "NOTES_FETCH_BY_QUERY_INIT";
 export const NOTES_FETCH_BY_QUERY_START = "NOTES_FETCH_BY_QUERY_START";
 export const NOTES_FETCH_BY_QUERY_SUCCESS = "NOTES_FETCH_BY_QUERY_SUCCESS";
 export const NOTES_FETCH_BY_QUERY_ERROR = "NOTES_FETCH_BY_QUERY_ERROR";
@@ -108,6 +109,14 @@ export const fetchNotesByFavoriteErrorAction = (error: AxiosError): IFetchNotesB
 });
 
 // -- FETCH NOTES BY QUERY --
+export interface IFetchNotesByQueryInitAction extends Action<typeof NOTES_FETCH_BY_QUERY_INIT> {
+  query: string;
+}
+export const initFetchNotesByQueryInitAction = (query: string): IFetchNotesByQueryInitAction => ({
+  type: NOTES_FETCH_BY_QUERY_INIT,
+  query,
+});
+
 export interface IFetchNotesByQueryStartAction extends Action<typeof NOTES_FETCH_BY_QUERY_START> {
   query: string;
 }
@@ -271,6 +280,7 @@ export type TNotesAction =
   | IFetchNotesByFavoriteStartAction
   | IFetchNotesByFavoriteSuccessAction
   | IFetchNotesByFavoriteErrorAction
+  | IFetchNotesByQueryInitAction
   | IFetchNotesByQueryStartAction
   | IFetchNotesByQuerySuccessAction
   | IFetchNotesByQueryErrorAction

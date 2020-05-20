@@ -12,6 +12,7 @@ import {
   fetchNotesByFavoriteErrorAction,
   fetchNotesByFavoriteSuccessAction,
   fetchNotesByQueryErrorAction,
+  fetchNotesByQueryStartAction,
   fetchNotesByQuerySuccessAction,
   fetchNotesByTagErrorAction,
   fetchNotesByTagSuccessAction,
@@ -21,10 +22,12 @@ import {
   IAddNoteStartAction,
   IDeleteNoteStartAction,
   IEditNoteStartAction,
+  IFetchNotesByQueryInitAction,
   IFetchNotesByQueryStartAction,
   IFetchNotesByTagStartAction,
   IFetchNoteStartAction,
   NOTES_FETCH_BY_FAVORITE_START,
+  NOTES_FETCH_BY_QUERY_INIT,
   NOTES_FETCH_BY_QUERY_START,
   NOTES_FETCH_BY_TAG_START,
   NOTES_FETCH_START,
@@ -73,6 +76,10 @@ function* fetchNotesByFavoriteSaga() {
   } catch (error) {
     yield put(fetchNotesByFavoriteErrorAction(error));
   }
+}
+
+function* initFetchNotesByQuerySaga(action: IFetchNotesByQueryInitAction) {
+  yield put(fetchNotesByQueryStartAction(action.query));
 }
 
 function* fetchNotesByQuerySaga(action: IFetchNotesByQueryStartAction) {
@@ -128,8 +135,9 @@ export default function* notesSaga() {
   yield all([
     takeEvery(NOTES_FETCH_START, fetchNotesSaga),
     takeEvery(NOTES_FETCH_BY_TAG_START, fetchNotesByTagSaga),
-    debounce(400, NOTES_FETCH_BY_FAVORITE_START, fetchNotesByFavoriteSaga),
-    debounce(400, NOTES_FETCH_BY_QUERY_START, fetchNotesByQuerySaga),
+    takeEvery(NOTES_FETCH_BY_FAVORITE_START, fetchNotesByFavoriteSaga),
+    debounce(400, NOTES_FETCH_BY_QUERY_INIT, initFetchNotesByQuerySaga),
+    takeEvery(NOTES_FETCH_BY_QUERY_START, fetchNotesByQuerySaga),
     takeEvery(NOTE_FETCH_START, fetchNoteSaga),
     takeEvery(NOTE_ADD_START, addNoteSaga),
     takeEvery(NOTE_DELETE_START, deleteNoteSaga),
